@@ -26,3 +26,20 @@ Todo:
 
 - plan how to use this in card game with pseudocode
 - create basic layout structure
+
+on page load, fetch cards from api, store as card objects in an array.
+
+after click, set clicked to true on that card
+
+shuffle the cards
+
+when correctcards === 9 you WIN -game over, reset game
+
+if card clicked and clicked== true then GAME OVER you lose..
+
+Problem 1:
+
+Hiding API Key
+
+-- use environment variables
+-- use dotenv package which is a library or tool that helps us manage them
