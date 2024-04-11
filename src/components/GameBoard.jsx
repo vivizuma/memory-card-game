@@ -1,14 +1,10 @@
-import Card from "./Card";
-import { shuffleInPlace, shuffleShallowCopy } from "../tests";
 import { useState, useEffect } from "react";
-
-const [round, setRound] = useState(0);
-function GameBoard() {
-  // on user click, we update round count and thus the board
-  // will shuffle
-
-  useEffect(() => {}, [round]);
-  return <></>;
+import Card from "./Card";
+function Gameboard() {
+  return (
+    <>
+      <div>This is a card</div>
+    </>
+  );
 }
-
-export default GameBoard;
+export default Gameboard;

@@ -1,5 +1,6 @@
 function Header() {
-  return <h1>Card game</h1>;
+  console.log();
+  return <h1>hello</h1>;
 }
 
 export default Header;

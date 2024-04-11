@@ -1,24 +1,15 @@
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
-import GameBoard from "./components/GameBoard";
-import dotenv from "dotenv";
-import { useEffect } from "react";
-const Api = () => {
-  useEffect(() => {
-    // accesss env variables
+import Gameboard from "./components/Gameboard";
 
-    const apiKey = process.env.API_KEY;
-    const pvtVar = process.env.PVT_VAR;
+import LoadingExample from "./components/LoadingExample";
 
-    console.log("API Key", apiKey);
-  }, []);
-};
 function App() {
-  const apiKey = process.env;
   return (
     <>
-      <Api />
       <Header />
-      <GameBoard />
+      <LoadingExample />
+      <Gameboard />
     </>
   );
 }

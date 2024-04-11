@@ -1,11 +1,17 @@
-// each card should:
-// update round count on click
-// have a unique id
-// have a clicked state
-// have an index that can be shuffled
-
-function Card(props) {
-  return <div>Card0</div>;
+function Card() {
+  return (
+    <>
+      <div>
+        image here
+        <img src="" alt="" />
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam harum
+          porro deserunt corporis necessitatibus sint quo minus iste vitae
+          explicabo.
+        </p>
+      </div>
+    </>
+  );
 }
 
 export default Card;

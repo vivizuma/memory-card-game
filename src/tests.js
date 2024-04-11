@@ -26,9 +26,7 @@ function shuffleShallowCopy(arr) {
   }
   return arrCopy;
 }
-
-const test1 = shuffleV2(cards); //?
-//shuffle in place
+// shuffle in place
 function shuffleInPlace(arr) {
   for (let i = 0; i < arr.length; i++) {
     const randomNumber = Math.floor(Math.random() * arr.length);

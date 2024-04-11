@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
-dotenv.config();
 
-const key = dotenv.process.env.username;
+dotenv.config();
+const key = process.env.REACT_APP_TEST;
 console.log("hello");
 console.log(key);
