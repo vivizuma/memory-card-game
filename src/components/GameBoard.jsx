@@ -7,9 +7,7 @@ function Gameboard() {
 
   let array = [1, 2, 3, 4, 5, 6];
   // on mount and when round count increases.. fetch new cards
-  useEffect(() => {
-    
-  }, [round]);
+  useEffect(() => {}, [round]);
   //if loading state is true - render skeleton
   //if loading is false, render real cards
   // fetch 6 images from an api at random(ish)
