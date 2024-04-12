@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Card from "./Card";
 
-function Gameboard() {
+function Table() {
   const [round, setRound] = useState(1);
   const [loading, isLoading] = useState(true);
 
@@ -25,4 +25,4 @@ function Gameboard() {
     </>
   );
 }
-export default Gameboard;
+export default Table;

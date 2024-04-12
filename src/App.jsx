@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
-import Gameboard from "./components/Gameboard";
+import Table from "./components/Table";
 
 import LoadingExample from "./components/LoadingExample";
 
@@ -9,7 +9,7 @@ function App() {
     <>
       <Header />
       <LoadingExample />
-      <Gameboard />
+      <Table />
     </>
   );
 }
