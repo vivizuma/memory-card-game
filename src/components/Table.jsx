@@ -3,13 +3,24 @@ import Card from "./Card";
 
 function Table() {
   const [round, setRound] = useState(1);
-  const [loading, isLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [pokemonArray, setPokemonArray] = useState([]);
-  function getRandomInteger(min, max) {
-    const minCeiling = Math.ceil(min);
-    const maxFloored = Math.floor(max);
-    return Math.floor(Math.random());
+  async function fetchPokemon(arr) {
+    const pokemonArray = [];
+    for (let i = 0; i < arr.length; i++) {
+      const pokemon = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/${arr[i]}`
+      );
+      if (!pokemon.ok) {
+        throw new Error("Error getting response:", pokemon.status);
+      }
+      const pokemonData = await pokemon.json();
+
+      pokemonArray.push(pokemonData.name);
+    }
+    return pokemonArray;
   }
+
   async function getPokemon() {
     // generate 9 random unique numbers between 1-151 (original pokemon) and store them in an array
     let randomNumbersArray = [];
@@ -20,16 +31,10 @@ function Table() {
       let num = Math.floor(Math.random() * 151) + 1;
       randomNumbersArray.push(num);
     }
+    const pokemans = await fetchPokemon(randomNumbersArray);
+    console.log(pokemans);
 
-    async function fetchPokemon(arr) {
-      const pokemonArray = [];
-      for (let i = 0; i < arr.length; i++) {
-        const pokemon = await fetch(
-          `https://pokeapi.co/api/v2/pokemon/${arr[i]}`
-        );
-        pokemonArray.push(pokemon);
-      }
-    } //// YOU STOPPED HERE
+    //// YOU STOPPED HERE
     // TODO:
     // get array of pokemon
     // get photo of each pokemon, name, id and store it in array of objects
@@ -37,33 +42,17 @@ function Table() {
     // create cards with fetched data
     // design game logic
     // finish  project and move on
-    const response = await fetch("https://pokeapi.co/api/v2/pokemon/1");
-    if (!response.ok) {
-      console.log("Error getting pokemon");
-      throw new Error("response bad", Error.name);
-    }
-    const data = await response.json();
-    console.log(data);
   }
   // on mount and when round count increases.. fetch new cards
   useEffect(() => {
-    getPokemon();
+    const pokemonNames = getPokemon();
+    console.log(pokemonNames);
   }, []);
 
-  //if loading state is true - render skeleton
-  //if loading is false, render real cards
-  // fetch 6 images from an api at random(ish)
-  // store as array of 6
-  // create an object for each card, with a boolean isClicked
-  console.log("heu");
-  // randomise order
   // pass index as a prop to a card to display image
   return (
     <>
-      <div>This is a card</div>
-
-      <Card img="https://picsum.photos/id/237/200/300" />
-      <Card name={name} />
+      <Card name={pokemonNames[1]} />
     </>
   );
 }
