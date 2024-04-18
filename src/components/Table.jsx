@@ -1,10 +1,21 @@
 import { useState, useEffect } from "react";
 import Card from "./Card";
 
+
 function Table() {
   const [round, setRound] = useState(1);
   const [loading, setLoading] = useState(true);
   const [pokemonArray, setPokemonArray] = useState([]);
+
+  function handlePokemonArray(array) {
+    setPokemonArray(array);
+  }
+  console.log("pokemon array", pokemonArray);
+  useEffect(() => {
+    handlePokemonArray([1, 2, 3]);
+  }, []);
+
+  console.log("pokemonArray", pokemonArray);
   async function fetchPokemon(arr) {
     const pokemonArray = [];
     for (let i = 0; i < arr.length; i++) {
@@ -15,8 +26,10 @@ function Table() {
         throw new Error("Error getting response:", pokemon.status);
       }
       const pokemonData = await pokemon.json();
+      // LEFT OFF HERE
+      // create an object
 
-      pokemonArray.push(pokemonData.name);
+      pokemonArray.push(pokemonData.sprites.other.home.front_default);
     }
     return pokemonArray;
   }
@@ -32,16 +45,7 @@ function Table() {
       randomNumbersArray.push(num);
     }
     const pokemans = await fetchPokemon(randomNumbersArray);
-    console.log(pokemans);
-
-    //// YOU STOPPED HERE
-    // TODO:
-    // get array of pokemon
-    // get photo of each pokemon, name, id and store it in array of objects
-    // update object state, update loading state.
-    // create cards with fetched data
-    // design game logic
-    // finish  project and move on
+    return pokemans;
   }
   // on mount and when round count increases.. fetch new cards
   useEffect(() => {
@@ -52,7 +56,7 @@ function Table() {
   // pass index as a prop to a card to display image
   return (
     <>
-      <Card name={pokemonNames[1]} />
+      <Card></Card>
     </>
   );
 }

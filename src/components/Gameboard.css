@@ -1,0 +1,11 @@
+.gameboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
