@@ -6,9 +6,10 @@ function Gameboard() {
   const [loading, setLoading] = useState(true);
   const [round, setRound] = useState(0);
   const [score, setScore] = useState(0);
-  const [pokemonArray, setPokemonArray] = useState([]);
+
   const [streak, setStreak] = useState(0);
   const [statusText, setStatusText] = useState("Click a card to begin");
+  const [pokemonArray, setPokemonArray] = useState([]);
   // after loading the 9 pokemon we can
   // create an array of objects with the property name and isClicked
   // every click we loop through this arry and if clicked = false, change to true
@@ -28,8 +29,6 @@ function Gameboard() {
     return arr;
   }
 
-  const [pokemon, setPokemon] = useState([]);
-
   // start the game
   // fetch from api once when component mounts []
   useEffect(() => {
@@ -38,9 +37,9 @@ function Gameboard() {
       const randomArray = createRandomArray(9);
 
       const pokemons = await getPokemon(randomArray);
-      setPokemon(pokemons);
+      setPokemonArray(pokemons);
       console.log(pokemons);
-      console.log("pokemonState", pokemon);
+      console.log("pokemonState", pokemonArray);
       setLoading(false);
     };
 
@@ -72,13 +71,13 @@ function Gameboard() {
     setRound(round + 1);
     console.log(round);
   };
-  function checkIsClicked() {
+  function checkIsClicked(name) {
     // look at pokemon array in state and check if clicked, if clicked, return true, if not, return false
-    
+    // loop through state array, if this name is clicked - return true, if not return false
   }
   const handleClick = (name) => {
     console.log(name, "clicked");
-    console.log(pokemon);
+    console.log(pokemonArray);
 
     // if clicked == false - updateClickedStatus, increment points
     if (!checkIsClicked()) {
@@ -107,7 +106,7 @@ function Gameboard() {
     // fetch new pokemon
   }
   function updateClickedStatus(name) {
-    setPokemon((prevPokemon) =>
+    setPokemonArray((prevPokemon) =>
       prevPokemon.map((item) =>
         item.name === name ? { ...item, clicked: true } : item
       )
@@ -120,7 +119,7 @@ function Gameboard() {
       <>
         <div className="gameboard">
           <div className="gameboard-grid">
-            {pokemon.map((card) => (
+            {pokemonArray.map((card) => (
               <Card
                 key={card.name}
                 name={card.name}
