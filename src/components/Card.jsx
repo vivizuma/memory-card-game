@@ -4,7 +4,12 @@ import "./Card.css";
 function Card(props) {
   return (
     <>
-      <div className="card">
+      <div
+        className="card"
+        onClick={() => {
+          props.onClick(props.name);
+        }}
+      >
         <div>
           <img src={props.img} alt={props.name} />
         </div>

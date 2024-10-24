@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Card from "./Card";
 
-
 function Table() {
   const [round, setRound] = useState(1);
   const [loading, setLoading] = useState(true);

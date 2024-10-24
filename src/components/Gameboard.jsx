@@ -1,11 +1,19 @@
 import { useState, useEffect } from "react";
 import Card from "./Card";
 import "./Gameboard.css";
+
 function Gameboard() {
   const [loading, setLoading] = useState(true);
-  const [round, setRounds] = useState(0);
+  const [round, setRound] = useState(0);
   const [score, setScore] = useState(0);
-  function checkWin() {}
+  const [pokemonArray, setPokemonArray] = useState([]);
+  const [streak, setStreak] = useState(0);
+  const [statusText, setStatusText] = useState("Click a card to begin");
+  // after loading the 9 pokemon we can
+  // create an array of objects with the property name and isClicked
+  // every click we loop through this arry and if clicked = false, change to true
+  // if clicked == true, then game over, fetch new pokemon
+
   function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
   }
@@ -23,10 +31,10 @@ function Gameboard() {
   const [pokemon, setPokemon] = useState([]);
 
   // start the game
-
+  // fetch from api once when component mounts []
   useEffect(() => {
     const fetchData = async () => {
-      setRounds(1);
+      setRound(1);
       const randomArray = createRandomArray(9);
 
       const pokemons = await getPokemon(randomArray);
@@ -38,14 +46,7 @@ function Gameboard() {
 
     fetchData();
   }, []);
-  function renderCards() {
-    return (currentCards = pokemon.map((item, index) => {
-      <Card key={index} img={item.img}></Card>;
-    }));
-  }
-  // every time the component rerenders, a game state check will take place
-
-  // ge pokemon via api and store them as objects in state
+  // takes an array of numbers, uses them as the indexes for items to be fetched from the api
   async function getPokemon(array) {
     const pokemonArray = [];
     for (let i = 0; i < array.length; i++) {
@@ -67,27 +68,51 @@ function Gameboard() {
     console.log(pokemonArray);
     return pokemonArray;
   }
+  const incrementRounds = () => {
+    setRound(round + 1);
+    console.log(round);
+  };
+  function checkIsClicked() {
+    // look at pokemon array in state and check if clicked, if clicked, return true, if not, return false
+    
+  }
+  const handleClick = (name) => {
+    console.log(name, "clicked");
+    console.log(pokemon);
 
-  function copyArrayAndShuffle(arr) {
-    // first make a shallow copy with the spread operator
-    let arr2 = [...arr];
-    for (let i = arr2.length - 1; i > 0; i--) {
-      let randomIndex = Math.floor(Math.random() * (i + 1));
-      [arr2[i], arr2[randomIndex]] = [arr2[randomIndex], arr2[i]];
+    // if clicked == false - updateClickedStatus, increment points
+    if (!checkIsClicked()) {
+      updateClickedStatus(name);
+      incrementRounds();
     }
-    return arr2;
+    // if clicked == true - game over
+    gameOver();
+
+    // check game status win or lose
+  };
+  function gameOver() {
+    console.log("you clicked the same one twice, you lose");
+    // set streak to 0
+    setStreak(0);
+    // display lose message
+    setStatusText("Game Over!");
+    // render try again button
   }
-  function handleClick() {
-    if (!pokemon[index].clicked) {
-      // shuffle cards
-      console.log("Card unclicked, shuffling cards and incrementing points");
-      // increase score
-    } else {
-      // game over
-      // start new round
-    }
+  function nextRound() {
+    // shuffle pokemon cards,
+    // increment score by 1
   }
-  let pokemonCards = [];
+  function nextGame() {
+    // reset states except streak
+    // fetch new pokemon
+  }
+  function updateClickedStatus(name) {
+    setPokemon((prevPokemon) =>
+      prevPokemon.map((item) =>
+        item.name === name ? { ...item, clicked: true } : item
+      )
+    );
+  }
   if (loading) {
     return <>LOADING!</>;
   } else {
@@ -95,12 +120,14 @@ function Gameboard() {
       <>
         <div className="gameboard">
           <div className="gameboard-grid">
-            {pokemon.map((card, index) => (
+            {pokemon.map((card) => (
               <Card
-                key={index}
+                key={card.name}
                 name={card.name}
                 img={card.img}
-                onClick={handleClick}
+                onClick={() => {
+                  handleClick(card.name);
+                }}
               />
             ))}
           </div>
@@ -113,7 +140,6 @@ function Gameboard() {
 export default Gameboard;
 
 // TODO TODAY::
-// css grid  the cards
 // random shuffle function
 // render pokemon cards
 // basic pokemon card styling

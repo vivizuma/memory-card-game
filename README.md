@@ -43,3 +43,13 @@ Hiding API Key
 
 -- use environment variables
 -- use dotenv package which is a library or tool that helps us manage them
+
+
+problems encountered / bugs:
+
+-- strict mode was causing everything to render twice. my async call to the api happened twice.
+-- how to shuffle the deck of cards:
+1. fetch cards from api 
+2. store in an array in state
+3. copy old array with spread operator, shuffle with sort
+4. 
