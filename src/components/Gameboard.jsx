@@ -6,6 +6,7 @@ function Gameboard() {
   const [loading, setLoading] = useState(true);
   const [round, setRound] = useState(0);
   const [score, setScore] = useState(0);
+  const [gamesPlayed, setGamesPlayed] = useState(0);
 
   const [streak, setStreak] = useState(0);
   const [statusText, setStatusText] = useState("Click a card to begin");
@@ -33,18 +34,18 @@ function Gameboard() {
   // fetch from api once when component mounts []
   useEffect(() => {
     const fetchData = async () => {
-      setRound(1);
+      setRound(0);
       const randomArray = createRandomArray(9);
 
-      const pokemons = await getPokemon(randomArray);
-      setPokemonArray(pokemons);
-      console.log(pokemons);
+      const pokemonArray = await getPokemon(randomArray);
+      setPokemonArray(pokemonArray);
+      console.log(pokemonArray);
       console.log("pokemonState", pokemonArray);
       setLoading(false);
     };
 
     fetchData();
-  }, []);
+  }, [gamesPlayed]);
   // takes an array of numbers, uses them as the indexes for items to be fetched from the api
   async function getPokemon(array) {
     const pokemonArray = [];
@@ -68,11 +69,16 @@ function Gameboard() {
     return pokemonArray;
   }
   const incrementRounds = () => {
-    setRound(round + 1);
+    setRound((prevRound) => prevRound + 1);
     console.log(round);
   };
   function checkIsClicked(name) {
     // look at pokemon array in state and check if clicked, if clicked, return true, if not, return false
+    let foundItem = pokemonArray.find((item) => item.name === name);
+    if (foundItem.clicked) {
+      return true;
+    }
+    return false;
     // loop through state array, if this name is clicked - return true, if not return false
   }
   const handleClick = (name) => {
@@ -80,9 +86,10 @@ function Gameboard() {
     console.log(pokemonArray);
 
     // if clicked == false - updateClickedStatus, increment points
-    if (!checkIsClicked()) {
+    if (!checkIsClicked(name)) {
       updateClickedStatus(name);
-      incrementRounds();
+      nextRound();
+      return;
     }
     // if clicked == true - game over
     gameOver();
@@ -91,19 +98,42 @@ function Gameboard() {
   };
   function gameOver() {
     console.log("you clicked the same one twice, you lose");
+    setRound(1);
     // set streak to 0
     setStreak(0);
     // display lose message
     setStatusText("Game Over!");
+    nextGame();
     // render try again button
   }
   function nextRound() {
-    // shuffle pokemon cards,
+    // shuffle pokemon cards, shuffle in state
     // increment score by 1
+    // check win
+    checkWin();
+    incrementRounds();
+  }
+  function checkWin() {
+    // if round == 9 and
+    // all pokemon are clicked
+    // game win
+    if (round === 8) {
+      gameWin();
+    }
+  }
+  function gameWin() {
+    // you win
+    console.log("you win");
+    //increment streak
+    setStreak((prevStreak) => prevStreak + 1);
+    // increment games played
+    setGamesPlayed((prevGamesPlayed) => prevGamesPlayed + 1);
   }
   function nextGame() {
     // reset states except streak
-    // fetch new pokemon
+    console.log("next game");
+    setGamesPlayed((gamesPlayedValue) => gamesPlayedValue + 1);
+    // fetch new pokemon with dependency!
   }
   function updateClickedStatus(name) {
     setPokemonArray((prevPokemon) =>
@@ -117,6 +147,9 @@ function Gameboard() {
   } else {
     return (
       <>
+        <h2>
+          round:{round} streak: {streak}
+        </h2>
         <div className="gameboard">
           <div className="gameboard-grid">
             {pokemonArray.map((card) => (
@@ -138,8 +171,6 @@ function Gameboard() {
 
 export default Gameboard;
 
-// TODO TODAY::
-// random shuffle function
-// render pokemon cards
-// basic pokemon card styling
-// handleClick function
+// TODO:
+
+// disable event listeners until api call is complete
